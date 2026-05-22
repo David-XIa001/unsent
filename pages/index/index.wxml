@@ -1,0 +1,26 @@
+<view class="container">
+  <view class="header">
+    <text class="title">活过今天</text>
+    <text class="subtitle">在这个充满危险的世界里，你能活过今天吗？</text>
+  </view>
+  
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-value">{{ survivalDays }}</text>
+      <text class="stat-label">生存天数</text>
+    </view>
+  </view>
+  
+  <view class="btn-container">
+    <view class="btn btn-primary" bindtap="startGame">
+      开始挑战
+    </view>
+  </view>
+  
+  <view class="tips-card">
+    <text class="tips-title">游戏提示</text>
+    <text class="tips-content">• 日常生活中的小事可能成为致命陷阱</text>
+    <text class="tips-content">• 看似安全的选择可能更加危险</text>
+    <text class="tips-content">• 每次游戏都是随机组合，祝你好运！</text>
+  </view>
+</view>

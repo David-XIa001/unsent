@@ -1,0 +1,50 @@
+<view class="container">
+  <view class="game-container">
+    <view class="status-bar">
+      <text class="status-text">生存挑战 • 第 {{ day }} 天</text>
+    </view>
+    
+    <view class="scene-card" wx:if="{{ !over }}" bindtap="skipTyping">
+      <view class="scene-content">
+        <text class="story-text">{{ typedStory }}<text class="cursor-blink" wx:if="{{ !typingFinished }}">_</text></text>
+      </view>
+      <text class="scene-hint" wx:if="{{ !typingFinished }}">⚡ 轻触任意区域跳过文字动画</text>
+      <text class="scene-hint" wx:else>👀 仔细观察剧情中的高亮线索，做出最优抉择...</text>
+    </view>
+    
+    <view class="choices-card {{ typingFinished ? 'fade-in' : 'hidden-choices' }}" wx:if="{{ !over && choices.length > 0 }}">
+      <text class="choices-title">你的选择</text>
+      <view 
+        class="choice-item" 
+        wx:for="{{ choices }}" 
+        wx:key="id"
+        data-id="{{ item.id }}"
+        bindtap="onPick"
+      >
+        <view class="choice-header">
+          <text class="choice-text">{{ item.txt }}</text>
+          <text class="choice-risk {{ item.rate >= 0.35 ? 'high-risk' : '' }}">{{ item.risk }}</text>
+        </view>
+        <text class="choice-clue" wx:if="{{ item.clue }}">{{ item.clueTip }}</text>
+      </view>
+    </view>
+    
+    <view class="result-overlay {{ win ? 'success-overlay' : 'failure-overlay' }}" wx:if="{{ over }}">
+      <view class="result-card {{ win ? 'success' : 'failure' }}">
+        <view class="result-card-glow"></view>
+        <text class="result-icon">{{ win ? '🎉' : '💀' }}</text>
+        <text class="result-title">{{ win ? '生存成功' : '不幸惨死' }}</text>
+        <text class="result-message">{{ msg }}</text>
+        <view class="result-stats">
+          <text class="result-stat">已连续存活: {{ saved }} 天</text>
+        </view>
+        <view class="btn btn-primary" bindtap="restart">
+          {{ win ? '继续挑战' : '重塑命运' }}
+        </view>
+        <view class="btn btn-secondary" bindtap="goHome">
+          返回营地
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

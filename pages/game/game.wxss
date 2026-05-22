@@ -1,0 +1,338 @@
+.container {
+  min-height: 100vh;
+  background: #1a1a2e;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.game-container {
+  max-width: 750rpx;
+  margin: 0 auto;
+}
+
+.status-bar {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.status-text {
+  font-size: 28rpx;
+  color: #ffe66d;
+  background: rgba(255, 230, 109, 0.1);
+  padding: 15rpx 30rpx;
+  border-radius: 30rpx;
+}
+
+.scene-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.1);
+}
+
+.scene-header {
+  margin-bottom: 20rpx;
+}
+
+.scene-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ff6b6b;
+}
+
+.scene-content {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 15rpx;
+  padding: 25rpx;
+}
+
+.story-text {
+  font-size: 30rpx;
+  color: #e0e0e0;
+  line-height: 1.8;
+}
+
+.scene-hint {
+  font-size: 22rpx;
+  color: rgba(255, 230, 109, 0.5);
+  display: block;
+  margin-top: 20rpx;
+  text-align: center;
+}
+
+.choices-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20rpx;
+  padding: 30rpx;
+}
+
+.choices-title {
+  font-size: 28rpx;
+  color: #ffe66d;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.choice-item {
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 16rpx;
+  padding: 25rpx 30rpx;
+  margin-bottom: 20rpx;
+  transition: all 0.25s ease;
+  border: 2rpx solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+}
+
+.choice-item:active {
+  background: rgba(255, 107, 107, 0.12);
+  border-color: rgba(255, 107, 107, 0.4);
+  box-shadow: 0 0 15rpx rgba(255, 107, 107, 0.2);
+}
+
+.choice-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 选项头部排版 */
+.choice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.choice-text {
+  font-size: 30rpx;
+  color: #f1f2f6;
+  font-weight: 500;
+  flex: 1;
+}
+
+.choice-risk {
+  font-size: 24rpx;
+  color: #a4b0be;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  margin-left: 20rpx;
+  font-weight: bold;
+}
+
+/* 高风险霓虹红 */
+.choice-risk.high-risk {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.15);
+  border: 1px solid rgba(255, 71, 87, 0.25);
+  text-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+}
+
+.choice-clue {
+  font-size: 22rpx;
+  color: #ffe66d;
+  margin-top: 12rpx;
+  display: block;
+}
+
+/* 打字机光标闪烁 */
+.cursor-blink {
+  color: #ffe66d;
+  font-weight: bold;
+  animation: blink 0.8s infinite;
+  margin-left: 6rpx;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* 选项列表过渡动画 */
+.hidden-choices {
+  opacity: 0;
+  transform: translateY(20rpx);
+  pointer-events: none;
+  transition: all 0.5s ease;
+  height: 0;
+  overflow: hidden;
+  padding: 0 30rpx !important;
+  margin: 0 !important;
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 全屏警示遮罩及动效 */
+.result-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 40rpx;
+  transition: background-color 0.5s ease;
+}
+
+.success-overlay {
+  background: rgba(10, 11, 16, 0.85);
+  animation: success-pulse 4s infinite alternate;
+}
+
+.failure-overlay {
+  background: rgba(20, 5, 5, 0.9);
+  animation: death-flash 3s infinite alternate;
+}
+
+@keyframes death-flash {
+  0% { background: rgba(20, 5, 5, 0.88); }
+  50% { background: rgba(45, 8, 8, 0.93); }
+  100% { background: rgba(20, 5, 5, 0.88); }
+}
+
+@keyframes success-pulse {
+  0% { background: rgba(10, 11, 16, 0.85); }
+  100% { background: rgba(10, 24, 20, 0.88); }
+}
+
+/* 结算卡片立体霓虹流光背景 */
+.result-card {
+  background: #11121b;
+  border-radius: 30rpx;
+  padding: 60rpx 50rpx;
+  width: 100%;
+  max-width: 600rpx;
+  text-align: center;
+  border: 4rpx solid;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+  animation: pop-up 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+@keyframes pop-up {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.result-card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.result-card.success .result-card-glow {
+  background: radial-gradient(circle, rgba(78,205,196,0.06) 0%, transparent 60%);
+}
+
+.result-card.failure .result-card-glow {
+  background: radial-gradient(circle, rgba(255,107,107,0.06) 0%, transparent 60%);
+}
+
+.result-card.success {
+  box-shadow: 0 0 40rpx rgba(78, 205, 196, 0.25);
+  border-color: #4ecdc4;
+}
+
+.result-card.failure {
+  box-shadow: 0 0 40rpx rgba(255, 107, 107, 0.25);
+  border-color: #ff6b6b;
+}
+
+.result-icon {
+  font-size: 100rpx;
+  display: block;
+  margin-bottom: 24rpx;
+}
+
+.result-title {
+  font-size: 44rpx;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 24rpx;
+  letter-spacing: 2rpx;
+}
+
+.result-card.success .result-title {
+  color: #4ecdc4;
+  text-shadow: 0 0 15rpx rgba(78, 205, 196, 0.4);
+}
+
+.result-card.failure .result-title {
+  color: #ff6b6b;
+  text-shadow: 0 0 15rpx rgba(255, 107, 107, 0.4);
+}
+
+.result-message {
+  font-size: 28rpx;
+  color: #a4b0be;
+  display: block;
+  margin-bottom: 40rpx;
+  line-height: 1.6;
+}
+
+.result-stats {
+  margin-bottom: 40rpx;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 16rpx;
+  border-radius: 12rpx;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.result-stat {
+  font-size: 28rpx;
+  color: #ffe66d;
+  font-weight: 600;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: 44rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 24rpx;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.btn:last-child {
+  margin-bottom: 0;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+  color: #fff;
+  box-shadow: 0 8rpx 20rpx rgba(255, 107, 107, 0.3);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+  opacity: 0.95;
+  box-shadow: 0 4rpx 10rpx rgba(255, 107, 107, 0.2);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e0e0e0;
+  border: 2rpx solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-secondary:active {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(0.97);
+}
