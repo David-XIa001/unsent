@@ -20,7 +20,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           },
           {
             "id": "lobby_c2",
@@ -31,7 +32,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["strength"]
           },
           {
             "id": "lobby_c3",
@@ -42,7 +44,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           }
         ],
         "position": {
@@ -51,7 +54,7 @@ module.exports = {
         }
       },
       "computer_room": {
-        "description": "这是一间布满蜘蛛网的旧电脑室。正中央一台绿荧荧的古董大型主机显示屏在无声闪烁，旁边是凌乱的服务器机柜和通风管道。另一侧有一扇厚重的电子安全门紧闭着。",
+        "description": "这是一间布满蜘蛛网的旧电脑室。正中央一台绿荧荧的古董大型主机显示屏在无声闪烁，旁边是凌乱的服务器机柜 and 通风管道。另一侧有一扇厚重的电子安全门紧闭着。",
         "hints": ["破解电脑", "通风管道", "电子门"],
         "choices": [
           {
@@ -63,7 +66,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": { "know_code": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["hacking", "intelligence"]
           },
           {
             "id": "comp_c2",
@@ -74,7 +78,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["strength"]
           },
           {
             "id": "comp_c3",
@@ -85,7 +90,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -106,7 +112,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": { "has_gasmask": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           },
           {
             "id": "lab_c2",
@@ -117,7 +124,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["strength"]
           },
           {
             "id": "lab_c3",
@@ -128,7 +136,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -149,7 +158,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": { "has_key": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           },
           {
             "id": "rec_c2",
@@ -160,7 +170,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "know_code": true },
             "effects": { "has_gun": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["hacking", "intelligence"]
           },
           {
             "id": "rec_c3",
@@ -171,7 +182,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -192,7 +204,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": { "has_suit": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           },
           {
             "id": "deep_c2",
@@ -203,7 +216,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["constitution"]
           }
         ],
         "position": {
@@ -224,7 +238,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_suit": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["constitution"]
           },
           {
             "id": "acid_c2",
@@ -235,7 +250,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["constitution"]
           },
           {
             "id": "acid_c3",
@@ -246,7 +262,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -267,7 +284,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           },
           {
             "id": "corr_c2",
@@ -278,7 +296,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["courage"]
           },
           {
             "id": "corr_c3",
@@ -289,7 +308,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -310,7 +330,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_gun": true },
             "effects": { "has_food": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["combat"]
           },
           {
             "id": "cant_c2",
@@ -321,7 +342,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["combat", "strength"]
           },
           {
             "id": "cant_c3",
@@ -332,7 +354,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility", "speed"]
           }
         ],
         "position": {
@@ -353,7 +376,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": { "has_cables": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           },
           {
             "id": "kit_c2",
@@ -364,7 +388,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility", "speed"]
           }
         ],
         "position": {
@@ -378,14 +403,15 @@ module.exports = {
         "choices": [
           {
             "id": "vent_c1",
-            "text": "沿着有微风和风扇轰鸣的方向爬过去",
+            "text": "沿着有微风 and 风扇轰鸣的方向爬过去",
             "deathRate": 0.05,
             "deathCause": "衣服被风扇卷入，被绞杀而死",
             "nextNode": "server_room",
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           },
           {
             "id": "vent_c2",
@@ -396,7 +422,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           },
           {
             "id": "vent_c3",
@@ -407,7 +434,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -428,7 +456,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["courage"]
           },
           {
             "id": "dead_c2",
@@ -439,7 +468,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility", "speed"]
           }
         ],
         "position": {
@@ -460,7 +490,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "generator_on": true },
             "effects": { "has_data": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["hacking", "intelligence"]
           },
           {
             "id": "serv_c2",
@@ -471,7 +502,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           },
           {
             "id": "serv_c3",
@@ -482,7 +514,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -503,7 +536,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_cables": true },
             "effects": { "generator_on": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           },
           {
             "id": "pow_c2",
@@ -514,7 +548,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["courage"]
           },
           {
             "id": "pow_c3",
@@ -525,12 +560,13 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
           "x": 1000,
-          "y": 550
+          "y": 534
         }
       },
       "guard_room": {
@@ -546,7 +582,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_key": true },
             "effects": { "has_card": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           },
           {
             "id": "guar_c2",
@@ -557,7 +594,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -578,7 +616,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_gasmask": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["constitution"]
           },
           {
             "id": "stai_c2",
@@ -589,7 +628,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["constitution"]
           },
           {
             "id": "stai_c3",
@@ -600,7 +640,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -621,7 +662,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "generator_on": true, "has_card": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["courage"]
           },
           {
             "id": "elev_c2",
@@ -632,7 +674,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["strength", "agility"]
           },
           {
             "id": "elev_c3",
@@ -643,7 +686,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -664,7 +708,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_gun": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["combat"]
           },
           {
             "id": "b1_c2",
@@ -675,7 +720,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility", "speed"]
           },
           {
             "id": "b1_c3",
@@ -686,7 +732,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -707,7 +754,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_card": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["hacking"]
           },
           {
             "id": "b2_c2",
@@ -718,7 +766,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility", "speed"]
           },
           {
             "id": "b2_c3",
@@ -729,7 +778,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -750,7 +800,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["strength"]
           },
           {
             "id": "hub_c2",
@@ -761,7 +812,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           },
           {
             "id": "hub_c3",
@@ -772,7 +824,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -793,7 +846,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_suit": true },
             "effects": { "key_card_gold": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["constitution"]
           },
           {
             "id": "rad_c2",
@@ -804,7 +858,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["constitution"]
           },
           {
             "id": "rad_c3",
@@ -815,7 +870,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -836,7 +892,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "key_card_gold": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["intelligence"]
           },
           {
             "id": "ctrl_c2",
@@ -847,7 +904,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["hacking", "intelligence"]
           },
           {
             "id": "ctrl_c3",
@@ -858,7 +916,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -879,7 +938,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": { "gate_opened": true },
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": []
           },
           {
             "id": "sys_c2",
@@ -890,7 +950,8 @@ module.exports = {
             "isSuccess": true,
             "conditions": { "has_data": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["courage"]
           },
           {
             "id": "sys_c3",
@@ -901,7 +962,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -910,7 +972,7 @@ module.exports = {
         }
       },
       "victory_gate": {
-        "description": "你站在基地最外围的重型防护主防爆大门前。随着令人牙酸的液压开门声，十余米高、几米厚的巨大合金门正缓缓向两侧退去。耀眼而灿烂的第一缕晨曦照在你的脸上。恭喜你赢得了这场终极逃生！",
+        "description": "你站在基地最外围的重型防护主防爆大门前。随着令人牙酸的液压开门声，十余米高、几米厚的巨大合金门正缓缓向两侧退去。耀眼而灿烂的第一缕晨曦照在你的脸上。恭喜你赢ened这场终极逃生！",
         "hints": ["大步跨出大门"],
         "choices": [
           {
@@ -922,7 +984,8 @@ module.exports = {
             "isSuccess": true,
             "conditions": { "gate_opened": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": []
           }
         ],
         "position": {
@@ -943,7 +1006,8 @@ module.exports = {
             "isSuccess": true,
             "conditions": { "has_card": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["courage"]
           },
           {
             "id": "cap_c2",
@@ -954,7 +1018,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {
@@ -975,7 +1040,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": { "has_food": true },
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["strength", "agility"]
           },
           {
             "id": "lift_c2",
@@ -986,7 +1052,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["strength"]
           },
           {
             "id": "lift_c3",
@@ -997,7 +1064,8 @@ module.exports = {
             "isSuccess": false,
             "conditions": {},
             "effects": {},
-            "modifiers": []
+            "modifiers": [],
+            "traitModifiers": ["agility"]
           }
         ],
         "position": {

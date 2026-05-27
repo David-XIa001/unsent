@@ -53,7 +53,11 @@ Page({
     outcomeChoice: '',
     outcomeNearMiss: '',
     outcomeGained: [],    // 本次获得的道具列表 [{emoji, name}]
-    currentItems: []      // 当前背包所有道具 [{emoji, name}]
+    currentItems: [],     // 当前背包所有道具 [{emoji, name}]
+    // 角色自主选择蒙层状态
+    showCharacterSelect: false,
+    availableCharacters: [],
+    selectedCharIndex: 0
   },
 
   onLoad: function (options) {
@@ -79,23 +83,10 @@ Page({
       return
     }
 
-    var chr, chain
-
+    var chain
     if (this._directChainId) {
       // ── 直链模式：指定特定关卡 ──
       chain = chains[this._directChainId]
-      if (!chain) {
-        this.setData({ over: true, win: false, msg: '关卡数据加载失败' })
-        return
-      }
-      // 找到该链对应的角色，找不到则 fallback 第一个
-      chr = chrList[0]
-      for (var ci = 0; ci < chrList.length; ci++) {
-        if (chrList[ci].id === chain.characterId) {
-          chr = chrList[ci]
-          break
-        }
-      }
     } else {
       // ── 随机/今日挑战模式 ──
       var randFn = Math.random
@@ -103,21 +94,18 @@ Page({
         var seed = getTodaySeed()
         randFn = createSeedRandom(seed)
       }
-      chr = chrList[Math.floor(randFn() * chrList.length)]
-      if (!chr.chains || chr.chains.length === 0) {
-        this.setData({ over: true, win: false, msg: '该角色没有可用任务链' })
-        return
-      }
-      var chainId = chr.chains[Math.floor(randFn() * chr.chains.length)]
+      // 随机分配一个默认的任务链（若玩家未指定）
+      var tempChr = chrList[Math.floor(randFn() * chrList.length)]
+      var chainId = tempChr.chains[Math.floor(randFn() * tempChr.chains.length)]
       chain = chains[chainId]
-      if (!chain) {
-        this.setData({ over: true, win: false, msg: '任务链数据加载失败' })
-        return
-      }
+    }
+
+    if (!chain) {
+      this.setData({ over: true, win: false, msg: '关卡数据加载失败' })
+      return
     }
 
     this._flags = {}
-    this._chr = chr
     this._chain = chain
     this._currentNodeId = chain.startNode || null
 
@@ -126,7 +114,39 @@ Page({
       return
     }
 
-    var story = chr.description + '。' + chain.description
+    // ── 打开职业选择面板 ──
+    this.setData({
+      showCharacterSelect: true,
+      availableCharacters: chrList,
+      selectedCharIndex: 0,
+      over: false,
+      win: false,
+      showOutcome: false,
+      modeText: this._mode === 'daily' ? '今日挑战' : '自由探索'
+    })
+  },
+
+  selectCharacter: function (e) {
+    var index = e.currentTarget.dataset.index
+    this.setData({
+      selectedCharIndex: index
+    })
+    wx.vibrateShort({ type: 'light' })
+  },
+
+  confirmCharacter: function () {
+    var index = this.data.selectedCharIndex
+    var chr = this.data.availableCharacters[index]
+    this._chr = chr
+
+    this.setData({
+      showCharacterSelect: false
+    })
+
+    wx.vibrateShort({ type: 'medium' })
+
+    // 正式步入关卡
+    var story = chr.description + '。' + this._chain.description
     this._loadNode(this._currentNodeId, story)
   },
 
@@ -168,8 +188,33 @@ Page({
         }
       }
 
-      if (finalRate < 0.05) finalRate = 0.05
-      if (finalRate > 0.95) finalRate = 0.95
+      // ── 跨关卡通用的角色天赋与通用属性修饰接口 ──
+      var triggeredTrait = null
+      if (this._chr && this._chr.traits && Array.isArray(this._chr.traits) && ch.traitModifiers && Array.isArray(ch.traitModifiers)) {
+        for (var t = 0; t < this._chr.traits.length; t++) {
+          var trait = this._chr.traits[t]
+          if (trait.modifiers && Array.isArray(trait.modifiers)) {
+            var isMatched = false
+            for (var m = 0; m < trait.modifiers.length; m++) {
+              if (ch.traitModifiers.indexOf(trait.modifiers[m]) !== -1) {
+                isMatched = true
+                break
+              }
+            }
+            if (isMatched) {
+              finalRate = finalRate * trait.rate
+              triggeredTrait = trait
+              // 匹配到一个天赋即可，Buff 特质优先
+              if (trait.type === 'buff') {
+                break
+              }
+            }
+          }
+        }
+      }
+
+      if (finalRate < 0.01) finalRate = 0.01
+      if (finalRate > 0.99) finalRate = 0.99
 
       // 隐藏精准死亡率，转换为警告词氛围指示
       var riskText = ''
@@ -199,10 +244,18 @@ Page({
         rate: finalRate,
         cause: ch.deathCause,
         win: ch.isSuccess || false,
-        clue: false
+        clue: false,
+        triggeredTrait: triggeredTrait
       }
 
-      if (modifierTriggered && finalRate !== ch.deathRate) {
+      if (triggeredTrait) {
+        entry.clue = true
+        if (triggeredTrait.type === 'buff') {
+          entry.clueTip = '✨ 职业特长【' + triggeredTrait.name + '】生效，生还几率大增！'
+        } else {
+          entry.clueTip = '⚠️ 职业劣势【' + triggeredTrait.name + '】触发，危险几率增加！'
+        }
+      } else if (modifierTriggered && finalRate !== ch.deathRate) {
         entry.clue = true
         if (finalRate > ch.deathRate) {
           entry.clueTip = '⚠️ 你似乎忽略了某个细节...'
@@ -342,13 +395,17 @@ Page({
       return
     }
 
-    // 轻触短震动反馈
-    wx.vibrateShort({ type: 'light' })
-
     var id = e.currentTarget.dataset.id
     for (var i = 0; i < this.data.choices.length; i++) {
-      if (this.data.choices[i].id === id) {
-        this._doChoice(this.data.choices[i])
+      var choiceEntry = this.data.choices[i]
+      if (choiceEntry.id === id) {
+        // 根据死亡风险动态决定点击震动强度
+        if (choiceEntry.rate >= 0.5) {
+          wx.vibrateLong() // 高危心跳长震
+        } else {
+          wx.vibrateShort({ type: 'medium' })
+        }
+        this._doChoice(choiceEntry)
         return
       }
     }
@@ -404,7 +461,7 @@ Page({
 
     // 存活且有后续节点：显示选择结果反馈屏
     this._nextNodeId = nextNode
-    var nearMiss = this._buildNearMiss(ch.txt || ch.text, ch.cause, ch.rate)
+    var nearMiss = this._buildNearMiss(ch.txt || ch.text, ch.cause, ch.rate, ch.triggeredTrait)
 
     this.setData({
       showOutcome: true,
@@ -414,14 +471,19 @@ Page({
       currentItems: this._buildCurrentItems()
     })
 
-    // "侥幸存活"节奏震动：中震 + 轻震
-    wx.vibrateShort({ type: 'medium' })
-    var that = this
-    setTimeout(function () { wx.vibrateShort({ type: 'light' }) }, 180)
+    // "侥幸存活"节奏震动：如果天赋生效，触发轻快连续震动，否则触发中震 + 轻震
+    if (ch.triggeredTrait && ch.triggeredTrait.type === 'buff') {
+      wx.vibrateShort({ type: 'medium' })
+      setTimeout(function () { wx.vibrateShort({ type: 'medium' }) }, 120)
+    } else {
+      wx.vibrateShort({ type: 'medium' })
+      var that = this
+      setTimeout(function () { wx.vibrateShort({ type: 'light' }) }, 180)
+    }
   },
 
   // 根据选项文本 + 死亡原因 生成沉浸式"险情复盘"叙事
-  _buildNearMiss: function (choiceText, deathCause, rate) {
+  _buildNearMiss: function (choiceText, deathCause, rate, triggeredTrait) {
     // 移除死亡动词让描述更适合"险些"语境
     var nearMissDesc = deathCause
       .replace(/暴毙$/, '').replace(/死亡$/, '').replace(/身亡$/, '')
@@ -438,7 +500,17 @@ Page({
 
     // 根据死亡率选不同语气：低危偏轻松，高危偏惊险
     var idx = rate <= 0.25 ? 0 : rate <= 0.6 ? 1 : 2
-    return templates[idx]
+    var result = templates[idx]
+
+    // ── 动态融入职业天赋/劣势影响描述 ──
+    if (triggeredTrait) {
+      if (triggeredTrait.type === 'buff') {
+        result += '\n\n✨ 【天赋·' + triggeredTrait.name + '】生效：身为【' + this._chr.name + '】的你，凭借特有的职业优势轻松化解了此次险境！'
+      } else {
+        result += '\n\n⚠️ 【劣势·' + triggeredTrait.name + '】触发：身为【' + this._chr.name + '】的你，受限于职业劣势属性，在此次应对中感到异常吃力...'
+      }
+    }
+    return result
   },
 
   // 玩家点击「继续前行」后才正式进入下一个节点

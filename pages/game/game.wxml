@@ -112,5 +112,45 @@
         </view>
       </view>
     </view>
+
+    <!-- ★ 职业角色选择面板 -->
+    <view class="character-select-overlay" wx:if="{{ showCharacterSelect }}">
+      <view class="char-select-card animate-scale-up">
+        <view class="char-select-glow"></view>
+        <text class="char-select-title">选择求生职业</text>
+        <text class="char-select-subtitle">各职业拥有独特的属性与天赋，深刻影响各项行动生还率。请挑选您的身份：</text>
+        
+        <scroll-view class="char-list" scroll-y="true">
+          <view 
+            class="char-option-item {{ selectedCharIndex === index ? 'active' : '' }}" 
+            wx:for="{{ availableCharacters }}" 
+            wx:key="id"
+            data-index="{{ index }}"
+            bindtap="selectCharacter"
+          >
+            <view class="char-option-card-glow" wx:if="{{ selectedCharIndex === index }}"></view>
+            <view class="char-option-header">
+              <view class="char-name-row">
+                <text class="char-option-name">{{ item.name }}</text>
+                <text class="char-option-badge" wx:if="{{ selectedCharIndex === index }}">已选定</text>
+              </view>
+              <text class="char-option-desc">{{ item.description }}</text>
+            </view>
+            <!-- 展示角色的特质/天赋 -->
+            <view class="char-traits-row">
+              <view class="trait-tag {{ trait.type }}" wx:for="{{ item.traits }}" wx:for-item="trait" wx:key="name">
+                <text class="trait-icon">{{ trait.type === 'buff' ? '🟢' : '🔴' }}</text>
+                <text class="trait-tag-name">{{ trait.name }}</text>
+                <text class="trait-tag-effect">{{ trait.description }}</text>
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+        
+        <view class="btn btn-confirm-char" bindtap="confirmCharacter">
+          以该身份步入深渊 →
+        </view>
+      </view>
+    </view>
   </view>
 </view>
