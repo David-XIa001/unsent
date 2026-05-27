@@ -3,8 +3,20 @@
     <view class="status-bar">
       <text class="status-text">{{ modeText }} • 第 {{ day }} 天</text>
     </view>
+
+    <!-- 背包栏：当前持有道具（仅有道具时才显示） -->
+    <view class="inventory-bar" wx:if="{{ currentItems.length > 0 && !over && !showOutcome }}">
+      <text class="inventory-label">🎒 背包</text>
+      <view class="inventory-items">
+        <view class="item-chip" wx:for="{{ currentItems }}" wx:key="name">
+          <text class="item-emoji">{{ item.emoji }}</text>
+          <text class="item-name">{{ item.name }}</text>
+        </view>
+      </view>
+    </view>
     
-    <view class="scene-card" wx:if="{{ !over }}" bindtap="skipTyping">
+    <!-- 剧情文本区 -->
+    <view class="scene-card" wx:if="{{ !over && !showOutcome }}" bindtap="skipTyping">
       <view class="scene-content">
         <rich-text class="story-text" nodes="{{ typedStory }}" wx:if="{{ typingFinished }}"></rich-text>
         <text class="story-text" wx:else>{{ typedStory }}<text class="cursor-blink">_</text></text>
@@ -13,7 +25,8 @@
       <text class="scene-hint" wx:else>👀 仔细观察剧情中的金黄色高亮线索，做出最优抉择...</text>
     </view>
     
-    <view class="choices-card {{ typingFinished ? 'fade-in' : 'hidden-choices' }}" wx:if="{{ !over && choices.length > 0 }}">
+    <!-- 选项区 -->
+    <view class="choices-card {{ typingFinished ? 'fade-in' : 'hidden-choices' }}" wx:if="{{ !over && !showOutcome && choices.length > 0 }}">
       <text class="choices-title">你的选择</text>
       <view 
         class="choice-item {{ item.riskClass }}" 
@@ -29,7 +42,59 @@
         <text class="choice-clue" wx:if="{{ item.clue }}">{{ item.clueTip }}</text>
       </view>
     </view>
+
+    <!-- ★ 选择结果反馈屏（存活过渡层） -->
+    <view class="outcome-overlay" wx:if="{{ showOutcome }}">
+      <view class="outcome-card">
+        <view class="outcome-card-glow"></view>
+
+        <!-- 存活标志 -->
+        <view class="outcome-header">
+          <text class="outcome-icon">💚</text>
+          <text class="outcome-title">化险为夷</text>
+        </view>
+
+        <!-- 你选择了什么 -->
+        <view class="outcome-choice-row">
+          <text class="outcome-choice-label">你的选择</text>
+          <text class="outcome-choice-text">{{ outcomeChoice }}</text>
+        </view>
+
+        <!-- 险情复盘叙事 -->
+        <view class="outcome-near-miss">
+          <text class="outcome-near-miss-text">{{ outcomeNearMiss }}</text>
+        </view>
+
+        <!-- 本次获得道具（有道具才显示） -->
+        <view class="outcome-gained" wx:if="{{ outcomeGained.length > 0 }}">
+          <text class="outcome-gained-title">✨ 获得道具</text>
+          <view class="gained-chips">
+            <view class="gained-chip" wx:for="{{ outcomeGained }}" wx:key="name">
+              <text class="gained-emoji">{{ item.emoji }}</text>
+              <text class="gained-name">{{ item.name }}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 当前全部背包 -->
+        <view class="outcome-bag" wx:if="{{ currentItems.length > 0 }}">
+          <text class="outcome-bag-title">🎒 当前持有</text>
+          <view class="bag-chips">
+            <view class="bag-chip" wx:for="{{ currentItems }}" wx:key="name">
+              <text class="bag-chip-emoji">{{ item.emoji }}</text>
+              <text class="bag-chip-name">{{ item.name }}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 继续按钮 -->
+        <view class="btn btn-continue" bindtap="continueGame">
+          继续前行 →
+        </view>
+      </view>
+    </view>
     
+    <!-- 死亡/通关结算屏 -->
     <view class="result-overlay {{ win ? 'success-overlay' : 'failure-overlay' }}" wx:if="{{ over }}">
       <view class="result-card {{ win ? 'success' : 'failure' }}">
         <view class="result-card-glow"></view>

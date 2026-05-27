@@ -3,14 +3,45 @@
     <text class="title">活过今天</text>
     <text class="subtitle">在这个充满危险的世界里，你能活过今天吗？</text>
   </view>
-  
+
   <view class="stats-card animate-pulse">
     <view class="stat-item">
       <text class="stat-value">{{ survivalDays }}</text>
       <text class="stat-label">已连续存活 (天)</text>
     </view>
   </view>
-  
+
+  <!-- 精品关卡：深渊实验室 -->
+  <view class="featured-label">
+    <text class="featured-label-text">🔥 精品关卡</text>
+  </view>
+  <view class="featured-card" bindtap="startEscapeRoom">
+    <view class="featured-card-bg"></view>
+    <view class="featured-card-content">
+      <view class="featured-meta">
+        <text class="featured-tag">🧪 密室逃脱</text>
+        <text class="featured-diff">⚡ 高难度</text>
+      </view>
+      <text class="featured-title">深渊实验室：逃出生天</text>
+      <text class="featured-desc">你在阴冷的废弃生化实验室中苏醒，四周大门紧闭。搜集线索、破解机关，找到唯一的生路！</text>
+      <view class="featured-stats">
+        <text class="featured-stat-item">🗺️ 25+ 节点</text>
+        <text class="featured-stat-item">🔑 10种道具</text>
+        <text class="featured-stat-item">🏆 3条结局</text>
+      </view>
+      <view class="featured-btn">
+        <text class="featured-btn-text">立刻挑战 →</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 其他模式入口 -->
+  <view class="divider-row">
+    <view class="divider-line"></view>
+    <text class="divider-text">或选择其他模式</text>
+    <view class="divider-line"></view>
+  </view>
+
   <view class="btn-container">
     <view class="btn btn-primary btn-glow" bindtap="startDailyGame">
       📅 今日生存挑战
@@ -21,12 +52,5 @@
     <view class="btn btn-museum" bindtap="openMuseum">
       💀 死亡纪念馆
     </view>
-  </view>
-  
-  <view class="tips-card">
-    <text class="tips-title">💡 幸存者指南</text>
-    <text class="tips-content">• 今日挑战：全服生存任务每日同步更新，做足准备再上路！</text>
-    <text class="tips-content">• 死亡率黑箱：真正的死亡危险不再是明牌，细心留意高亮线索！</text>
-    <text class="tips-content">• 死亡纪念馆：自动记录你每一次不幸暴毙的死因，努力达成全图鉴收集！</text>
   </view>
 </view>

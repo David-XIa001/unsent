@@ -23,6 +23,249 @@
   border-radius: 30rpx;
 }
 
+/* ===== 背包栏 ===== */
+.inventory-bar {
+  display: flex;
+  align-items: center;
+  background: rgba(78, 205, 196, 0.06);
+  border: 2rpx solid rgba(78, 205, 196, 0.18);
+  border-radius: 16rpx;
+  padding: 16rpx 24rpx;
+  margin-bottom: 20rpx;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.inventory-label {
+  font-size: 24rpx;
+  color: #4ecdc4;
+  margin-right: 18rpx;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.inventory-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+  flex: 1;
+}
+
+.item-chip {
+  display: flex;
+  align-items: center;
+  background: rgba(78, 205, 196, 0.1);
+  border: 2rpx solid rgba(78, 205, 196, 0.25);
+  border-radius: 30rpx;
+  padding: 6rpx 18rpx;
+  gap: 8rpx;
+}
+
+.item-emoji {
+  font-size: 26rpx;
+}
+
+.item-name {
+  font-size: 22rpx;
+  color: #4ecdc4;
+}
+
+/* ===== 选择结果反馈屏（存活过渡层） ===== */
+.outcome-overlay {
+  animation: outcome-pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+}
+
+@keyframes outcome-pop {
+  0%  { opacity: 0; transform: scale(0.92) translateY(20rpx); }
+  100%{ opacity: 1; transform: scale(1)    translateY(0); }
+}
+
+.outcome-card {
+  background: linear-gradient(160deg, #0d1f1e 0%, #111827 100%);
+  border-radius: 24rpx;
+  padding: 44rpx 36rpx;
+  border: 2rpx solid rgba(78, 205, 196, 0.3);
+  box-shadow: 0 0 40rpx rgba(78, 205, 196, 0.12), 0 15rpx 40rpx rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20rpx;
+}
+
+.outcome-card-glow {
+  position: absolute;
+  top: -60%;
+  left: -30%;
+  width: 160%;
+  height: 160%;
+  background: radial-gradient(ellipse, rgba(78, 205, 196, 0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.outcome-header {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 30rpx;
+}
+
+.outcome-icon {
+  font-size: 56rpx;
+}
+
+.outcome-title {
+  font-size: 44rpx;
+  font-weight: 800;
+  color: #4ecdc4;
+  text-shadow: 0 0 20rpx rgba(78, 205, 196, 0.4);
+  letter-spacing: 2rpx;
+}
+
+/* 选择复盘 */
+.outcome-choice-row {
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 6rpx solid rgba(255, 230, 109, 0.5);
+  border-radius: 0 12rpx 12rpx 0;
+  padding: 18rpx 22rpx;
+  margin-bottom: 24rpx;
+}
+
+.outcome-choice-label {
+  font-size: 22rpx;
+  color: #ffe66d;
+  display: block;
+  margin-bottom: 8rpx;
+  font-weight: bold;
+}
+
+.outcome-choice-text {
+  font-size: 28rpx;
+  color: #e0e0e0;
+  display: block;
+  line-height: 1.5;
+}
+
+/* 险情复盘叙事 */
+.outcome-near-miss {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.05);
+}
+
+.outcome-near-miss-text {
+  font-size: 28rpx;
+  color: #b2bec3;
+  line-height: 1.85;
+  display: block;
+}
+
+/* 获得道具 */
+.outcome-gained {
+  margin-bottom: 24rpx;
+}
+
+.outcome-gained-title {
+  font-size: 24rpx;
+  color: #ffe66d;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 14rpx;
+}
+
+.gained-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14rpx;
+}
+
+.gained-chip {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  background: linear-gradient(135deg, rgba(255, 230, 109, 0.12), rgba(255, 230, 109, 0.06));
+  border: 2rpx solid rgba(255, 230, 109, 0.35);
+  border-radius: 30rpx;
+  padding: 12rpx 24rpx;
+  animation: gained-bounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.4) forwards;
+}
+
+@keyframes gained-bounce {
+  0%  { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.08); opacity: 1; }
+  100%{ transform: scale(1); opacity: 1; }
+}
+
+.gained-emoji {
+  font-size: 32rpx;
+}
+
+.gained-name {
+  font-size: 26rpx;
+  color: #ffe66d;
+  font-weight: bold;
+}
+
+/* 当前背包 */
+.outcome-bag {
+  margin-bottom: 36rpx;
+}
+
+.outcome-bag-title {
+  font-size: 22rpx;
+  color: #4ecdc4;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 12rpx;
+}
+
+.bag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.bag-chip {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  background: rgba(78, 205, 196, 0.08);
+  border: 2rpx solid rgba(78, 205, 196, 0.2);
+  border-radius: 30rpx;
+  padding: 8rpx 18rpx;
+}
+
+.bag-chip-emoji {
+  font-size: 26rpx;
+}
+
+.bag-chip-name {
+  font-size: 22rpx;
+  color: #4ecdc4;
+}
+
+/* 继续按钮 */
+.btn-continue {
+  background: linear-gradient(135deg, #4ecdc4, #44b0a8);
+  color: #0d1f1e;
+  font-weight: 800;
+  font-size: 32rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  border-radius: 48rpx;
+  box-shadow: 0 8rpx 25rpx rgba(78, 205, 196, 0.35);
+  letter-spacing: 2rpx;
+  transition: all 0.2s ease;
+}
+
+.btn-continue:active {
+  transform: scale(0.97);
+  box-shadow: 0 4rpx 12rpx rgba(78, 205, 196, 0.2);
+}
+
+
+
 .scene-card {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 20rpx;

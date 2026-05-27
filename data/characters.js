@@ -4,6 +4,7 @@ module.exports = [
     "name": "小学生",
     "description": "你今年10岁，是一名活泼的小学生。",
     "chains": [
+      "escape_room",
       "go_to_school",
       "go_to_playground"
     ]

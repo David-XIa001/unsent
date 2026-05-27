@@ -32,6 +32,12 @@ Page({
     })
   },
 
+  startEscapeRoom: function () {
+    wx.navigateTo({
+      url: '/pages/game/game?chainId=escape_room'
+    })
+  },
+
   openMuseum: function () {
     wx.navigateTo({
       url: '/pages/museum/museum'
