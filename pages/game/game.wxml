@@ -2,6 +2,9 @@
   <view class="game-container">
     <view class="status-bar">
       <text class="status-text">{{ modeText }} • 第 {{ day }} 天</text>
+      <view class="hp-bar" wx:if="{{ !showCharacterSelect }}">
+        <text class="hp-heart" wx:for="{{ [0, 1, 2] }}" wx:key="*this">{{ index < hp ? '💖' : '💔' }}</text>
+      </view>
     </view>
 
     <!-- 背包栏：当前持有道具（仅有道具时才显示） -->
@@ -104,11 +107,49 @@
         <view class="result-stats">
           <text class="result-stat">已连续存活: {{ saved }} 天</text>
         </view>
+
+        <!-- 📣 微信分享裂变复活按钮 -->
+        <button class="btn btn-share-revive" open-type="share" bindtap="reviveGame" wx:if="{{ !win && !revived }}">
+          📣 召唤救援 (分享群免费复活)
+        </button>
+
         <view class="btn btn-primary" bindtap="restart">
           {{ win ? '继续挑战' : '重塑命运' }}
         </view>
         <view class="btn btn-secondary" bindtap="goHome">
           返回营地
+        </view>
+      </view>
+    </view>
+
+    <!-- ★ 扣血生命垂危（Dying）过渡屏 -->
+    <view class="dying-overlay" wx:if="{{ showDying }}">
+      <view class="dying-card">
+        <view class="dying-card-glow"></view>
+        <view class="dying-header">
+          <text class="dying-icon">⚠️</text>
+          <text class="dying-title">死里逃生</text>
+        </view>
+        
+        <view class="dying-choice-row">
+          <text class="dying-choice-label">危险决策</text>
+          <text class="dying-choice-text">{{ dyingChoiceText }}</text>
+        </view>
+
+        <view class="dying-narrative">
+          <text class="dying-narrative-text">{{ dyingNarrative }}</text>
+        </view>
+
+        <!-- 当前剩余血量 -->
+        <view class="dying-hp-status">
+          <text class="dying-hp-label">当前剩余生命值</text>
+          <view class="dying-hp-hearts">
+            <text class="dying-hp-heart" wx:for="{{ [0, 1, 2] }}" wx:key="*this">{{ index < hp ? '💖' : '💔' }}</text>
+          </view>
+        </view>
+
+        <view class="btn btn-dying-continue" bindtap="continueAfterDying">
+          捂着伤口前行 →
         </view>
       </view>
     </view>

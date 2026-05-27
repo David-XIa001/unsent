@@ -57,7 +57,13 @@ Page({
     // 角色自主选择蒙层状态
     showCharacterSelect: false,
     availableCharacters: [],
-    selectedCharIndex: 0
+    selectedCharIndex: 0,
+    // 🌟 生命值与分享复活状态
+    hp: 3,
+    revived: false,
+    showDying: false,
+    dyingNarrative: '',
+    dyingChoiceText: ''
   },
 
   onLoad: function (options) {
@@ -122,6 +128,9 @@ Page({
       over: false,
       win: false,
       showOutcome: false,
+      hp: 3,
+      revived: false,
+      showDying: false,
       modeText: this._mode === 'daily' ? '今日挑战' : '自由探索'
     })
   },
@@ -438,15 +447,42 @@ Page({
 
     // 死亡判定
     if (Math.random() < ch.rate) {
+      var nextHp = this.data.hp - 1
       app.addDeathRecord(ch.cause)
-      var realPercentage = Math.round(ch.rate * 100)
-      this.setData({
-        over: true,
-        win: false,
-        msg: '你死了...\n\n死因: ' + ch.cause + '\n\n【命运解密】你选择的这条路线真实暴毙率高达 ' + realPercentage + '%！'
-      })
-      wx.vibrateLong()
-      return
+      
+      if (nextHp > 0) {
+        // ── 情景 A：扣除一滴生命值，触发濒死死里逃生保护 ──
+        this.setData({
+          hp: nextHp
+        })
+        
+        var nextNode = originalChoice ? originalChoice.nextNode : null
+        this._nextNodeId = nextNode
+        var dyingMsg = this._buildDyingNarrative(ch.txt || ch.text, ch.cause, nextHp)
+        
+        this.setData({
+          showDying: true,
+          dyingChoiceText: ch.txt || ch.text,
+          dyingNarrative: dyingMsg,
+          outcomeGained: gainedItems,
+          currentItems: this._buildCurrentItems()
+        })
+        
+        // 遭遇重创：微信长震动警示
+        wx.vibrateLong()
+        return
+      } else {
+        // ── 情景 B：3滴血彻底耗尽，真正死亡 ──
+        var realPercentage = Math.round(ch.rate * 100)
+        this.setData({
+          hp: 0,
+          over: true,
+          win: false,
+          msg: '你死了...\n\n死因: ' + ch.cause + '\n\n【生命宣告】你的 3 滴生命值已彻底耗尽！搜救队也无力回天！\n\n【命运解密】最后一击你选择的路线真实暴毙率高达 ' + realPercentage + '%！'
+        })
+        wx.vibrateLong()
+        return
+      }
     }
 
     // ——存活——
@@ -525,6 +561,32 @@ Page({
     }
   },
 
+  // 玩家扣除血量未死时点击「捂着伤口前行」
+  continueAfterDying: function () {
+    var nextNode = this._nextNodeId
+    this.setData({ showDying: false })
+    if (nextNode && this._chain.nodes[nextNode]) {
+      this._currentNodeId = nextNode
+      this._loadNode(nextNode, '')
+    } else {
+      this._handleWin()
+    }
+  },
+
+  _buildDyingNarrative: function (choiceText, deathCause, currentHp) {
+    var causeDesc = deathCause
+      .replace(/暴毙$/, '').replace(/死亡$/, '').replace(/身亡$/, '')
+      .replace(/而死$/, '').replace(/致死$/, '').replace(/而亡$/, '')
+      .replace(/惨死$/, '').replace(/死$/, '')
+
+    var templates = [
+      '😱 【死里逃生】！你刚才贸然选择【' + choiceText + '】，结果险些遭受致命危机——差一点就' + causeDesc + '！幸好你关键时刻拼命自救（扣除 1 滴生命值），在鬼门关前强行抽身！目前仅剩 ' + currentHp + ' 滴生命值，务必小心！',
+      '💥 【身受重伤】！极度凶险的【' + causeDesc + '】险情瞬间笼罩了你！你虽然凭顽强的肉体意志勉强挺了过来（生命值 -1），但已元气大伤。请捂着伤口，更加谨慎地继续探索！'
+    ]
+    var idx = Math.random() < 0.5 ? 0 : 1
+    return templates[idx]
+  },
+
   _handleWin: function () {
     app.addSurvivalDay()
     this.setData({
@@ -547,5 +609,31 @@ Page({
 
   goHome: function () {
     wx.navigateBack({ delta: 1 })
+  },
+
+  reviveGame: function () {
+    if (this.data.revived) return
+
+    wx.vibrateShort({ type: 'medium' })
+    this.setData({
+      hp: 1,
+      revived: true,
+      over: false,
+      showOutcome: false,
+      showDying: false
+    })
+
+    // 原地复活：渲染紧急医疗救援的临场剧情文案
+    var story = '🏥 【紧急救援成功】！搜救队友在千钧一发之际赶到，为你注射了强效生化抗毒素（恢复 1 滴生命值）！目前你依然生命垂危，请更加谨慎地做出下一步决断！\n\n'
+    this._loadNode(this._currentNodeId, story)
+  },
+
+  onShareAppMessage: function () {
+    var chrName = this._chr ? this._chr.name : '幸存者'
+    var chainName = this._chain ? this._chain.name : '生化实验室'
+    return {
+      title: '🆘 急救呼援！我是【' + chrName + '】，被困在【' + chainName + '】深处只剩最后一滴血，快来帮我复活！',
+      path: '/pages/index/index'
+    }
   }
 })
