@@ -20,9 +20,21 @@ Page({
     })
   },
 
-  startGame: function () {
+  startDailyGame: function () {
     wx.navigateTo({
-      url: '/pages/game/game'
+      url: '/pages/game/game?mode=daily'
+    })
+  },
+
+  startFreeGame: function () {
+    wx.navigateTo({
+      url: '/pages/game/game?mode=free'
+    })
+  },
+
+  openMuseum: function () {
+    wx.navigateTo({
+      url: '/pages/museum/museum'
     })
   }
 })

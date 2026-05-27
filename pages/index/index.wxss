@@ -74,6 +74,60 @@
   box-shadow: 0 8rpx 30rpx rgba(255, 107, 107, 0.4);
 }
 
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  animation: glow-pulse 2s infinite ease-in-out;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 8rpx 30rpx rgba(255, 107, 107, 0.4);
+  }
+  50% {
+    box-shadow: 0 8rpx 45rpx rgba(255, 107, 107, 0.8);
+  }
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e0e0e0;
+  border: 2rpx solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-secondary:active {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(0.98);
+}
+
+.btn-museum {
+  background: linear-gradient(135deg, #4b5d67, #3c4f5e);
+  color: #c4d7e0;
+  border: 2rpx solid rgba(196, 215, 224, 0.3);
+  box-shadow: 0 8rpx 30rpx rgba(75, 93, 103, 0.3);
+}
+
+.btn-museum:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+  background: linear-gradient(135deg, #3c4f5e, #2c3e4c);
+}
+
+.animate-pulse {
+  animation: pulse-border 3s infinite ease-in-out;
+}
+
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: rgba(255, 107, 107, 0.2);
+    box-shadow: 0 0 10rpx rgba(255, 107, 107, 0.05);
+  }
+  50% {
+    border-color: rgba(255, 107, 107, 0.4);
+    box-shadow: 0 0 25rpx rgba(255, 107, 107, 0.2);
+  }
+}
+
 .btn-primary:active {
   transform: scale(0.98);
   opacity: 0.9;

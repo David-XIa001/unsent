@@ -2,6 +2,24 @@ const app = getApp()
 const chains = require('../../data/chains')
 const characters = require('../../data/characters')
 
+// 确定性线性同余伪随机数生成器 (LCG)
+function createSeedRandom(seed) {
+  var s = seed;
+  return function() {
+    s = (s * 9301 + 49297) % 233280;
+    return s / 233280.0;
+  };
+}
+
+// 提取今日数字作为随机种子
+function getTodaySeed() {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1;
+  const date = d.getDate();
+  return year * 10000 + month * 100 + date;
+}
+
 Page({
   data: {
     story: '',
@@ -12,10 +30,12 @@ Page({
     win: false,
     msg: '',
     day: 1,
-    saved: 0
+    saved: 0,
+    modeText: '自由探索'
   },
 
-  onLoad: function () {
+  onLoad: function (options) {
+    this._mode = options.mode || 'free'
     this.startGame()
   },
 
@@ -36,13 +56,19 @@ Page({
       return
     }
 
-    var chr = chrList[Math.floor(Math.random() * chrList.length)]
+    var randFn = Math.random
+    if (this._mode === 'daily') {
+      var seed = getTodaySeed()
+      randFn = createSeedRandom(seed)
+    }
+
+    var chr = chrList[Math.floor(randFn() * chrList.length)]
     if (!chr.chains || chr.chains.length === 0) {
       this.setData({ over: true, win: false, msg: '该角色没有可用任务链' })
       return
     }
 
-    var chainId = chr.chains[Math.floor(Math.random() * chr.chains.length)]
+    var chainId = chr.chains[Math.floor(randFn() * chr.chains.length)]
     var chain = chains[chainId]
     if (!chain) {
       this.setData({ over: true, win: false, msg: '任务链数据加载失败' })
@@ -74,6 +100,12 @@ Page({
     var choices = []
     var desc = node.description
 
+    // 收集当前节点中所有需要高亮的关键字 (Hints 与 Modifiers 匹配词)
+    var highlightWords = []
+    if (node.hints && Array.isArray(node.hints)) {
+      highlightWords = highlightWords.concat(node.hints)
+    }
+    
     for (var i = 0; i < node.choices.length; i++) {
       var ch = node.choices[i]
 
@@ -84,21 +116,45 @@ Page({
       var finalRate = ch.deathRate
       var modifierTriggered = false
 
-      for (var j = 0; j < ch.modifiers.length; j++) {
-        var mod = ch.modifiers[j]
-        if (desc.indexOf(mod.word) !== -1) {
-          finalRate += mod.adj
-          modifierTriggered = true
+      if (ch.modifiers && Array.isArray(ch.modifiers)) {
+        for (var j = 0; j < ch.modifiers.length; j++) {
+          var mod = ch.modifiers[j]
+          highlightWords.push(mod.word)
+          if (desc.indexOf(mod.word) !== -1) {
+            finalRate += mod.adj
+            modifierTriggered = true
+          }
         }
       }
 
       if (finalRate < 0.05) finalRate = 0.05
       if (finalRate > 0.95) finalRate = 0.95
 
+      // 隐藏精准死亡率，转换为警告词氛围指示
+      var riskText = ''
+      var riskClass = ''
+      if (finalRate <= 0.2) {
+        riskText = '🟢 感觉还好...'
+        riskClass = 'risk-low'
+      } else if (finalRate <= 0.4) {
+        riskText = '🟡 有些不安...'
+        riskClass = 'risk-mid'
+      } else if (finalRate <= 0.6) {
+        riskText = '🟠 心跳加速...'
+        riskClass = 'risk-high'
+      } else if (finalRate <= 0.8) {
+        riskText = '🔴 极度危险...'
+        riskClass = 'risk-extreme'
+      } else {
+        riskText = '💀 必死之路...'
+        riskClass = 'risk-extreme-shake'
+      }
+
       var entry = {
         id: ch.id,
         txt: ch.text,
-        risk: '风险: ' + Math.round(finalRate * 100) + '%',
+        risk: riskText,
+        riskClass: riskClass,
         rate: finalRate,
         cause: ch.deathCause,
         win: ch.isSuccess || false,
@@ -117,6 +173,16 @@ Page({
       choices.push(entry)
     }
 
+    // 过滤去重高亮词
+    var uniqueWords = []
+    for (var k = 0; k < highlightWords.length; k++) {
+      var w = highlightWords[k]
+      if (w && uniqueWords.indexOf(w) === -1) {
+        uniqueWords.push(w)
+      }
+    }
+    this._highlightWords = uniqueWords
+
     this.setData({
       story: story,
       typedStory: '',
@@ -126,10 +192,30 @@ Page({
       win: false,
       msg: '',
       day: (app.globalData.survivalDays || 0) + 1,
-      saved: app.globalData.survivalDays || 0
+      saved: app.globalData.survivalDays || 0,
+      modeText: this._mode === 'daily' ? '今日挑战' : '自由探索'
     })
 
     this._startTyping(story)
+  },
+
+  _applyHighlights: function (story) {
+    if (!this._highlightWords || this._highlightWords.length === 0) {
+      return story
+    }
+    var html = story
+    var sortedWords = this._highlightWords.slice().sort(function (a, b) {
+      return b.length - a.length
+    })
+
+    for (var i = 0; i < sortedWords.length; i++) {
+      var word = sortedWords[i]
+      // 高亮关键字渲染：霓虹金黄色，文字冒险悬疑感十足
+      var repl = '<span style="color: #ffe66d; font-weight: bold; text-shadow: 0 0 10px rgba(255, 230, 109, 0.6);">' + word + '</span>'
+      var reg = new RegExp(word, 'g')
+      html = html.replace(reg, repl)
+    }
+    return html
   },
 
   _startTyping: function (story) {
@@ -153,8 +239,9 @@ Page({
       currentLen++
       if (currentLen >= totalLen) {
         clearInterval(that._typingTimer)
+        var htmlStory = that._applyHighlights(story)
         that.setData({
-          typedStory: story,
+          typedStory: htmlStory,
           typingFinished: true
         })
       } else {
@@ -170,8 +257,9 @@ Page({
       if (this._typingTimer) {
         clearInterval(this._typingTimer)
       }
+      var htmlStory = this._applyHighlights(this.data.story)
       this.setData({
-        typedStory: this.data.story,
+        typedStory: htmlStory,
         typingFinished: true
       })
       wx.vibrateShort({ type: 'light' })
@@ -228,7 +316,12 @@ Page({
 
     if (Math.random() < ch.rate) {
       app.addDeathRecord(ch.cause)
-      this.setData({ over: true, win: false, msg: '你死了...\n\n死因: ' + ch.cause })
+      var realPercentage = Math.round(ch.rate * 100)
+      this.setData({ 
+        over: true, 
+        win: false, 
+        msg: '你死了...\n\n死因: ' + ch.cause + '\n\n【命运解密】你选择的这条路线真实暴毙率高达 ' + realPercentage + '%！'
+      })
       // 遭遇死亡，触发重震动
       wx.vibrateLong()
       return

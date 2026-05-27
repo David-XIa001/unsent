@@ -118,12 +118,80 @@
   font-weight: bold;
 }
 
-/* 高风险霓虹红 */
-.choice-risk.high-risk {
+/* 五档氛围警告选项样式 */
+.choice-item.risk-low {
+  border-color: rgba(78, 205, 196, 0.15);
+}
+.choice-item.risk-low .choice-risk {
+  color: #4ecdc4;
+  background: rgba(78, 205, 196, 0.08);
+}
+.choice-item.risk-low:active {
+  background: rgba(78, 205, 196, 0.08);
+  border-color: rgba(78, 205, 196, 0.4);
+  box-shadow: 0 0 15rpx rgba(78, 205, 196, 0.2);
+}
+
+.choice-item.risk-mid {
+  border-color: rgba(255, 230, 109, 0.15);
+}
+.choice-item.risk-mid .choice-risk {
+  color: #ffe66d;
+  background: rgba(255, 230, 109, 0.08);
+}
+.choice-item.risk-mid:active {
+  background: rgba(255, 230, 109, 0.08);
+  border-color: rgba(255, 230, 109, 0.4);
+  box-shadow: 0 0 15rpx rgba(255, 230, 109, 0.2);
+}
+
+.choice-item.risk-high {
+  border-color: rgba(255, 165, 0, 0.18);
+}
+.choice-item.risk-high .choice-risk {
+  color: #ffa500;
+  background: rgba(255, 165, 0, 0.08);
+}
+.choice-item.risk-high:active {
+  background: rgba(255, 165, 0, 0.08);
+  border-color: rgba(255, 165, 0, 0.4);
+  box-shadow: 0 0 15rpx rgba(255, 165, 0, 0.2);
+}
+
+.choice-item.risk-extreme {
+  border-color: rgba(255, 107, 107, 0.22);
+}
+.choice-item.risk-extreme .choice-risk {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.08);
+  text-shadow: 0 0 8px rgba(255, 107, 107, 0.4);
+}
+.choice-item.risk-extreme:active {
+  background: rgba(255, 107, 107, 0.08);
+  border-color: rgba(255, 107, 107, 0.5);
+  box-shadow: 0 0 15rpx rgba(255, 107, 107, 0.3);
+}
+
+.choice-item.risk-extreme-shake {
+  border-color: rgba(255, 71, 87, 0.3);
+  animation: option-shake 0.8s infinite alternate ease-in-out;
+}
+.choice-item.risk-extreme-shake .choice-risk {
   color: #ff4757;
   background: rgba(255, 71, 87, 0.15);
-  border: 1px solid rgba(255, 71, 87, 0.25);
-  text-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+  text-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+}
+.choice-item.risk-extreme-shake:active {
+  background: rgba(255, 71, 87, 0.12);
+  border-color: rgba(255, 71, 87, 0.6);
+  box-shadow: 0 0 15rpx rgba(255, 71, 87, 0.4);
+}
+
+@keyframes option-shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-1px) rotate(-0.2deg); }
+  75% { transform: translateX(1px) rotate(0.2deg); }
+  100% { transform: translateX(0); }
 }
 
 .choice-clue {

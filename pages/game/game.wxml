@@ -1,21 +1,22 @@
 <view class="container">
   <view class="game-container">
     <view class="status-bar">
-      <text class="status-text">生存挑战 • 第 {{ day }} 天</text>
+      <text class="status-text">{{ modeText }} • 第 {{ day }} 天</text>
     </view>
     
     <view class="scene-card" wx:if="{{ !over }}" bindtap="skipTyping">
       <view class="scene-content">
-        <text class="story-text">{{ typedStory }}<text class="cursor-blink" wx:if="{{ !typingFinished }}">_</text></text>
+        <rich-text class="story-text" nodes="{{ typedStory }}" wx:if="{{ typingFinished }}"></rich-text>
+        <text class="story-text" wx:else>{{ typedStory }}<text class="cursor-blink">_</text></text>
       </view>
       <text class="scene-hint" wx:if="{{ !typingFinished }}">⚡ 轻触任意区域跳过文字动画</text>
-      <text class="scene-hint" wx:else>👀 仔细观察剧情中的高亮线索，做出最优抉择...</text>
+      <text class="scene-hint" wx:else>👀 仔细观察剧情中的金黄色高亮线索，做出最优抉择...</text>
     </view>
     
     <view class="choices-card {{ typingFinished ? 'fade-in' : 'hidden-choices' }}" wx:if="{{ !over && choices.length > 0 }}">
       <text class="choices-title">你的选择</text>
       <view 
-        class="choice-item" 
+        class="choice-item {{ item.riskClass }}" 
         wx:for="{{ choices }}" 
         wx:key="id"
         data-id="{{ item.id }}"
@@ -23,7 +24,7 @@
       >
         <view class="choice-header">
           <text class="choice-text">{{ item.txt }}</text>
-          <text class="choice-risk {{ item.rate >= 0.35 ? 'high-risk' : '' }}">{{ item.risk }}</text>
+          <text class="choice-risk">{{ item.risk }}</text>
         </view>
         <text class="choice-clue" wx:if="{{ item.clue }}">{{ item.clueTip }}</text>
       </view>
