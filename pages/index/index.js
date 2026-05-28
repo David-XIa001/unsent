@@ -38,6 +38,13 @@ Page({
     })
   },
 
+  startZombieOffice: function () {
+    wx.navigateTo({
+      url: '/pages/game/game?chainId=zombie_office'
+    })
+  },
+
+
   openMuseum: function () {
     wx.navigateTo({
       url: '/pages/museum/museum'

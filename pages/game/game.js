@@ -31,9 +31,18 @@ var ITEM_ICONS = {
   'has_food':       { emoji: '🍱', name: '高能食物' },
   'has_data':       { emoji: '💾', name: '机密数据' },
   'key_card_gold':  { emoji: '🏆', name: '黄金主卡' },
-  'know_code':      { emoji: '🔢', name: '警备密码' },
-  'generator_on':   { emoji: '⚡', name: '基地通电' },
-  'gate_opened':    { emoji: '🚪', name: '大门已开' }
+  'know_code':      { emoji: '🔢', name: '密码信息' },
+  'generator_on':   { emoji: '⚡', name: '电力恢复' },
+  'gate_opened':    { emoji: '🚪', name: '大门已开' },
+  // 🧟 丧尸写字楼大逃亡新增道具
+  'has_scissors':   { emoji: '✂️', name: '多功能剪刀' },
+  'has_coffee':     { emoji: '☕', name: 'HR强效咖啡' },
+  'has_baton':      { emoji: '🦯', name: '防暴电甩棍' },
+  'has_key_gold':   { emoji: '🔑', name: '保时捷钥匙' },
+  'has_card_guard': { emoji: '🪪', name: '安保室黑卡' },
+  'has_adrenaline': { emoji: '💉', name: '肾上腺素' },
+  'has_suppressor': { emoji: '🧪', name: '生化抑制剂' },
+  'has_cash':       { emoji: '💰', name: '董事长私房钱' }
 }
 
 Page({

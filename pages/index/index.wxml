@@ -11,11 +11,13 @@
     </view>
   </view>
 
-  <!-- 精品关卡：深渊实验室 -->
+  <!-- 精品关卡 -->
   <view class="featured-label">
-    <text class="featured-label-text">🔥 精品关卡</text>
+    <text class="featured-label-text">🔥 精品特选关卡 (大制作)</text>
   </view>
-  <view class="featured-card" bindtap="startEscapeRoom">
+
+  <!-- 精品关卡一：深渊实验室 -->
+  <view class="featured-card" bindtap="startEscapeRoom" style="margin-bottom: 24rpx;">
     <view class="featured-card-bg"></view>
     <view class="featured-card-content">
       <view class="featured-meta">
@@ -31,6 +33,27 @@
       </view>
       <view class="featured-btn">
         <text class="featured-btn-text">立刻挑战 →</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 精品关卡二：丧尸写字楼 -->
+  <view class="featured-card featured-zombie" bindtap="startZombieOffice">
+    <view class="featured-card-bg-zombie"></view>
+    <view class="featured-card-content">
+      <view class="featured-meta">
+        <text class="featured-tag tag-zombie">🧟 末日逃生</text>
+        <text class="featured-diff diff-zombie">⚡ 超硬核</text>
+      </view>
+      <text class="featured-title">丧尸危机：逃出写字楼</text>
+      <text class="featured-desc">下班前夕，公司大楼被丧尸沦陷！突破24层死线，收集神装与装甲车，开启完美大逃亡！</text>
+      <view class="featured-stats">
+        <text class="featured-stat-item">🗺️ 20个节点</text>
+        <text class="featured-stat-item">🎒 10种道具</text>
+        <text class="featured-stat-item">🏆 4条结局</text>
+      </view>
+      <view class="featured-btn btn-zombie">
+        <text class="featured-btn-text">冲破重围 →</text>
       </view>
     </view>
   </view>

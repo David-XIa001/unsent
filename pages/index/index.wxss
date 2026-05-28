@@ -298,3 +298,59 @@
 .tips-content:last-child {
   margin-bottom: 0;
 }
+
+/* ===== 丧尸危机专属精品卡片样式 ===== */
+.featured-zombie {
+  border: 2rpx solid rgba(155, 89, 182, 0.45);
+  box-shadow: 0 10rpx 40rpx rgba(0, 0, 0, 0.4), 0 0 35rpx rgba(155, 89, 182, 0.15);
+}
+
+.featured-card-bg-zombie {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(145deg, #0b071e 0%, #1d0f36 50%, #0d1e13 100%);
+}
+
+.tag-zombie {
+  color: #c56cf0;
+  background: rgba(197, 108, 240, 0.12);
+  border: 2rpx solid rgba(197, 108, 240, 0.3);
+}
+
+.diff-zombie {
+  color: #ff3f34;
+  background: rgba(255, 63, 52, 0.15);
+  border: 2rpx solid rgba(255, 63, 52, 0.35);
+  animation: zombie-blink 1.5s infinite ease-in-out;
+}
+
+.btn-zombie {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  box-shadow: 0 6rpx 22rpx rgba(142, 68, 173, 0.45);
+  animation: btn-zombie-pulse 2s infinite ease-in-out;
+}
+
+.btn-zombie:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 12rpx rgba(142, 68, 173, 0.3);
+}
+
+@keyframes zombie-blink {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 10rpx rgba(255, 63, 52, 0.2);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 20rpx rgba(255, 63, 52, 0.5);
+  }
+}
+
+@keyframes btn-zombie-pulse {
+  0%, 100% {
+    box-shadow: 0 6rpx 22rpx rgba(142, 68, 173, 0.45);
+  }
+  50% {
+    box-shadow: 0 6rpx 35rpx rgba(142, 68, 173, 0.75);
+  }
+}

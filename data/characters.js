@@ -21,8 +21,7 @@ module.exports = [
     ],
     "chains": [
       "escape_room",
-      "go_to_school",
-      "go_to_playground"
+      "zombie_office"
     ]
   },
   {
@@ -47,6 +46,7 @@ module.exports = [
     ],
     "chains": [
       "escape_room",
+      "zombie_office",
       "go_to_work",
       "go_to_dinner"
     ]
@@ -73,6 +73,7 @@ module.exports = [
     ],
     "chains": [
       "escape_room",
+      "zombie_office",
       "go_to_market",
       "go_to_hospital"
     ]
@@ -99,6 +100,7 @@ module.exports = [
     ],
     "chains": [
       "escape_room",
+      "zombie_office",
       "deliver_food",
       "deliver_in_rain"
     ]
@@ -125,6 +127,7 @@ module.exports = [
     ],
     "chains": [
       "escape_room",
+      "zombie_office",
       "go_to_exam",
       "go_to_library"
     ]
@@ -151,6 +154,7 @@ module.exports = [
     ],
     "chains": [
       "escape_room",
+      "zombie_office",
       "night_shift",
       "handle_emergency"
     ]
@@ -177,6 +181,7 @@ module.exports = [
     ],
     "chains": [
       "escape_room",
+      "zombie_office",
       "cook_dinner",
       "pick_up_kids"
     ]
@@ -203,6 +208,7 @@ module.exports = [
     ],
     "chains": [
       "escape_room",
+      "zombie_office",
       "pick_passenger",
       "night_drive"
     ]
