@@ -1,82 +1,58 @@
-# 活过今天 (Survive Today) — 文字生存剧本小程序及可视化剧情编辑器
+# ✉️ 未寄 · Unsent
 
-《活过今天》是一款极简且沉浸的微信小程序文字剧情生存游戏。项目采用“微信小程序原生客户端 + React 可视化拓扑故事链后台编辑器”的双端架构，玩家通过分支选项决定生死存亡，而内容制作者则能通过拖拽式编辑器轻松配置复杂的剧情走向。
-
----
-
-## 🌟 项目亮点
-
-- **沉浸式文字冒险**：原生小程序实现流畅的**打字机特效**与**多段触觉反馈**（轻触震动、暴毙长震、通关节奏震动），极佳地提升了文字游戏的代入感。
-- **状态机与剧情引擎**：支持复杂的条件解锁（`conditions`）、道具/状态变更（`effects`）以及基于文本线索的死亡率动态修正（`modifiers`）。
-- **完全可视化剧情编辑**：后台管理系统基于最新 **React 19** 与 **React Flow** 深度定制，实现了 BPMN 风格的**拖拽连线编辑器**，让制作者彻底告别枯燥的手写 JSON 剧情配置文件。
+> **留在地表上的未寄之信**  
+> 留在某个路口、某张长椅，终究未曾寄给对方的话。在物理坐标里留下心事，等待星夜里陌生人的善意回响。
 
 ---
 
-## 📂 项目结构
+## 🌟 核心特性
 
-```text
-survive-today/
-├── admin/                      # 后台管理系统 (Vite + React)
-│   ├── src/
-│   │   ├── App.jsx             # 核心编辑器组件 (基于 React Flow 可视化编辑剧情拓扑)
-│   │   ├── main.jsx            # 后台入口
-│   │   └── utils/              # 辅助工具函数
-│   ├── package.json            # 依赖配置 (React 19 + @xyflow/react)
-│   └── vite.config.js          # Vite 配置文件
-│
-├── data/                       # 核心游戏配置数据
-│   ├── characters.js           # 游戏角色配置 (如：小学生、外卖骑手、上班族等)
-│   └── chains.js               # 可视化后台导出的剧情故事链有向图数据
-│
-├── pages/                      # 微信小程序端页面
-│   ├── index/                  # 游戏首页 (角色选择入口)
-│   └── game/                   # 核心游戏交互页面 (打字机效果、选项决策、震动反馈)
-│
-├── app.js                      # 小程序全局逻辑 (存活记录统计、震动封装)
-├── app.json                    # 小程序全局配置
-└── .gitignore                  # Git 忽略文件
+- 🌌 **深色星夜无水印底图**：基于 MapLibre GL 与高分辨率极夜底图，沉浸感深邃纯净。
+- 💫 **五维情绪呼吸微光**：思念（蓝）、秘密（紫）、治愈（橙）、释怀（绿）、告白（红）全图动态波纹。
+- ⏳ **时空信封与倒计时**：未到期内容封存于水晶外壳中，展示精确到秒的拆封倒计时。
+- 📷 **拍立得图文与直传压缩**：支持手机相册上传、拍照与截图直接 `Ctrl+V` 粘贴，客户端自动等比轻量压缩。
+- 🏷️ **拍立得分享海报 + 二维码**：一键生成自带经纬度印章的高清相纸海报，扫码直达此处的记忆坐标。
+- ✈️ **纸飞机回音与微光共振**：点亮心灯伴随彩色礼花特效，拒绝争吵，仅保留善意回信。
+- 🎲 **漫步地表 (任意门)**：如流星般穿梭地图，随机降落拆阅世界角落的陌生人独白。
+
+---
+
+## 🛠️ 技术选型
+
+- **前端架构**：Vite + React 19 + TypeScript + Tailwind CSS
+- **地图渲染**：MapLibre GL JS (WebGL 硬件加速)
+- **海报与二维码**：`html-to-image` + `qrcode.react` + `canvas-confetti`
+- **云端 BaaS (选填)**：Supabase (PostgreSQL + PostGIS 空间索引 + RLS 行级安全)
+- **部署平台**：Vercel / Cloudflare Pages (永久 $0 成本上线)
+
+---
+
+## 🚀 极速本地运行
+
+```bash
+# 1. 安装依赖
+npm install
+
+# 2. 启动开发服务器
+npm run dev
+
+# 3. 生产打包
+npm run build
 ```
 
 ---
 
-## 🛠️ 技术栈
+## ☁️ 0 成本云端上线步骤 (5分钟)
 
-### 微信小程序端 (Client)
-- **核心开发**：微信原生语法 (WXML / WXSS / JavaScript)
-- **动效处理**：高性能打字机输出动效，支持快捷轻触跳过。
-- **硬反馈交互**：利用微信 API 提供的 `wx.vibrateShort` (轻/中震动) 和 `wx.vibrateLong` (长震动) 模拟玩家心跳、探索、暴毙等环境反馈。
+### 1. 数据库建表 (Supabase 免费层)
+1. 前往 [Supabase](https://supabase.com) 免费创建新项目；
+2. 进入项目 **SQL Editor**，粘贴并运行项目中的 [`src/supabase_schema.sql`](./src/supabase_schema.sql)；
+3. 在 **Project Settings -> API** 中复制 `Project URL` 与 `anon public` key。
 
-### 剧情管理后台 (Admin)
-- **核心架构**：React 19 + Vite 8
-- **可视化图形引擎**：`@xyflow/react` (React Flow)
-- **功能特性**：支持节点拖拽、连线拓扑图生成、节点属性编辑（死亡率、死亡原因、前置条件配置），一键实时导出兼容小程序的 JS 配置结构。
-
----
-
-## 🚀 快速开始
-
-### 运行微信小程序端
-1. 下载并安装 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)。
-2. 导入本项目根目录 `survive-today`。
-3. 选择您的小程序 AppID（或使用测试号）即可在模拟器中体验游戏。
-
-### 运行可视化后台编辑器
-1. 进入 `admin` 目录：
-   ```bash
-   cd admin
-   ```
-2. 安装依赖项：
-   ```bash
-   npm install
-   ```
-3. 启动本地开发服务：
-   ```bash
-   npm run dev
-   ```
-4. 访问本地控制台，通过拖拽直观地创建属于您的生存剧情大作。
-
----
-
-## 📜 许可协议
-
-本项目遵循 MIT 开源协议。
+### 2. 前端部署 (Vercel)
+1. 将本项目推送到你的 GitHub 仓库；
+2. 登录 [Vercel](https://vercel.com)，点击 **Import** 导入该仓库；
+3. 在 **Environment Variables** 填入两项环境变量：
+   - `VITE_SUPABASE_URL` = 你的 Supabase URL
+   - `VITE_SUPABASE_ANON_KEY` = 你的 Supabase Anon Key
+4. 点击 **Deploy**，约 1 分钟即可生成全球 CDN 加速的公网直达域名！

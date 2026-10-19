@@ -1,0 +1,135 @@
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-space-950 text-slate-100 antialiased overflow-hidden select-none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+}
+
+/* 呼吸微光点样式 */
+.aurora-marker {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.aurora-marker-core {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px currentColor;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.aurora-marker:hover .aurora-marker-core {
+  transform: scale(1.6);
+}
+
+.aurora-marker-wave {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: currentColor;
+  opacity: 0.4;
+  animation: marker-ripple 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes marker-ripple {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* MapLibre 控件深色暗黑风格美化 */
+.maplibregl-ctrl-group {
+  background: rgba(11, 15, 25, 0.75) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+  overflow: hidden;
+}
+
+.maplibregl-ctrl-group button {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.maplibregl-ctrl-group button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.maplibregl-ctrl-icon {
+  filter: invert(0.9) !important;
+}
+
+/* 版权署名紧凑折叠样式：平时仅显示隐蔽微弱的小圆圈 ⓘ，鼠标移上去才展开 */
+.maplibregl-ctrl-attrib {
+  background: transparent !important;
+}
+
+.maplibregl-ctrl-attrib.maplibregl-compact {
+  background: rgba(11, 15, 25, 0.6) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 9999px !important;
+  margin: 0 10px 10px 0 !important;
+  opacity: 0.45;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex !important;
+  align-items: center;
+}
+
+.maplibregl-ctrl-attrib.maplibregl-compact:not(:hover):not(:focus-within) .maplibregl-ctrl-attrib-inner {
+  display: none !important;
+}
+
+.maplibregl-ctrl-attrib.maplibregl-compact:hover {
+  opacity: 1;
+  background: rgba(11, 15, 25, 0.9) !important;
+  padding: 2px 8px !important;
+}
+
+.maplibregl-ctrl-attrib-inner {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+  margin-left: 4px;
+}
+
+.maplibregl-ctrl-attrib-button {
+  background-color: transparent !important;
+  filter: invert(0.85);
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+
