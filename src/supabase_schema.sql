@@ -1,6 +1,6 @@
 -- ==============================================================================
--- GeoCapsule / 时空微光 - Supabase 数据库一键初始化脚本
--- 在 Supabase Dashboard -> SQL Editor 中粘贴运行即可
+-- 未寄 · Unsent - Supabase 数据库一键初始化脚本 (幂等安全版本)
+-- 在 Supabase Dashboard -> SQL Editor 中粘贴运行即可，支持反复执行不报错
 -- ==============================================================================
 
 -- 1. 创建心事胶囊主表
@@ -45,6 +45,12 @@ $$ language plpgsql security definer;
 -- 5. 开启行级安全策略 (RLS)
 alter table public.capsules enable row level security;
 alter table public.capsule_replies enable row level security;
+
+-- 清理旧策略 (支持反复安全执行)
+drop policy if exists "Allow public read capsules" on public.capsules;
+drop policy if exists "Allow public read replies" on public.capsule_replies;
+drop policy if exists "Allow public insert capsules" on public.capsules;
+drop policy if exists "Allow public insert replies" on public.capsule_replies;
 
 -- 任何人可读
 create policy "Allow public read capsules" on public.capsules for select using (true);
