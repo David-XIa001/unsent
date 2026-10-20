@@ -131,6 +131,27 @@ export async function fetchCapsules(): Promise<Capsule[]> {
       return getLocalData();
     }
 
+    // 首次数据库为空时，自动播种初始未寄之信
+    if (data && data.length === 0) {
+      try {
+        const seedRows = INITIAL_MOCK_CAPSULES.map((item) => ({
+          author_nickname: item.authorNickname,
+          content: item.content,
+          mood_color: item.moodColor,
+          photo_url: item.photoUrl,
+          lng: item.lng,
+          lat: item.lat,
+          location_name: item.locationName,
+          unlock_at: item.unlockAt,
+          resonances_count: item.resonancesCount,
+        }));
+        await supabase.from('capsules').insert(seedRows);
+      } catch (err) {
+        console.warn('Failed to seed initial capsules:', err);
+      }
+      return INITIAL_MOCK_CAPSULES;
+    }
+
     const now = new Date().getTime();
     return (data || []).map((row) => ({
       id: row.id,
