@@ -17,6 +17,7 @@ interface MapViewProps {
   onMapClickCoord: (coords: { lng: number; lat: number }) => void;
   isPlantingMode: boolean;
   focusTarget?: { lng: number; lat: number; zoom?: number } | null;
+  highlightedCapsuleId?: string | null;
 }
 
 // 采用无需 API Key 的高质量深色极夜底图 (ESRI World Dark Gray)
@@ -64,6 +65,7 @@ export const MapView: React.FC<MapViewProps> = ({
   onMapClickCoord,
   isPlantingMode,
   focusTarget,
+  highlightedCapsuleId,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -154,6 +156,13 @@ export const MapView: React.FC<MapViewProps> = ({
       tooltip.className = 'absolute -top-8 px-2 py-1 rounded-lg bg-space-900/90 text-white text-[11px] whitespace-nowrap border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg';
       tooltip.textContent = `${capsule.isLocked ? '⏳ [时空锁] ' : ''}${capsule.authorNickname}: ${capsule.locationName || '某处心事'}`;
 
+      // 新封存成功的微光粒子，附加一次高亮绽放光环
+      if (highlightedCapsuleId === capsule.id) {
+        const pingRing = document.createElement('div');
+        pingRing.className = 'absolute -inset-3 rounded-full border-2 border-white/80 animate-ping pointer-events-none';
+        el.appendChild(pingRing);
+      }
+
       el.appendChild(wave);
       el.appendChild(core);
       el.appendChild(tooltip);
@@ -170,7 +179,7 @@ export const MapView: React.FC<MapViewProps> = ({
 
       markersRef.current.push(marker);
     });
-  }, [capsules, selectedMood, onSelectCapsule]);
+  }, [capsules, selectedMood, onSelectCapsule, highlightedCapsuleId]);
 
   return (
     <div className="relative w-full h-full">

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Compass } from 'lucide-react';
+import { Compass, Sparkles, X, Share2 } from 'lucide-react';
 import { Header } from './components/UI/Header';
 import { MapView } from './components/Map/MapView';
 import { CreateCapsuleModal } from './components/Capsule/CreateCapsuleModal';
@@ -22,6 +22,18 @@ export function App() {
   const [createCoords, setCreateCoords] = useState<{ lng: number; lat: number } | null>(null);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [focusTarget, setFocusTarget] = useState<{ lng: number; lat: number; zoom?: number } | null>(null);
+  const [toastCapsule, setToastCapsule] = useState<Capsule | null>(null);
+  const [highlightedCapsuleId, setHighlightedCapsuleId] = useState<string | null>(null);
+
+  // 自动隐藏封存成功 Toast 提示与高亮光晕
+  useEffect(() => {
+    if (!toastCapsule) return;
+    const timer = setTimeout(() => {
+      setToastCapsule(null);
+      setHighlightedCapsuleId(null);
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [toastCapsule]);
 
   // 初始化加载数据
   const loadData = useCallback(async () => {
@@ -72,14 +84,17 @@ export function App() {
     }, 800);
   };
 
-  // 提交新建心事
+  // 提交新建心事 (友好交互模式：关弹窗、镜头滑向落点、新光点呼吸绽放、非阻塞轻量 Toast)
   const handleCreateSubmit = async (input: CreateCapsuleInput) => {
     const created = await addCapsule(input);
     setCapsules((prev) => [created, ...prev]);
     setIsCreateOpen(false);
-    // 镜头对准并聚焦打开刚创建的胶囊
+    // 镜头平滑聚焦落点，欣赏微光诞生
     setFocusTarget({ lng: created.lng, lat: created.lat, zoom: 11 });
-    setViewingCapsule(created);
+    // 标记新光点以产生绽放脉冲
+    setHighlightedCapsuleId(created.id);
+    // 浮出轻量非阻塞 Toast 提示，绝不打扰用户视野
+    setToastCapsule(created);
   };
 
   // 点亮微光
@@ -132,7 +147,46 @@ export function App() {
         onMapClickCoord={handleMapClickCoord}
         isPlantingMode={isPlantingMode}
         focusTarget={focusTarget}
+        highlightedCapsuleId={highlightedCapsuleId}
       />
+
+      {/* 封存成功后的轻量仪式感 Toast 浮窗 (非阻塞、不挡地图) */}
+      {toastCapsule && (
+        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-space-900/95 backdrop-blur-md border border-white/20 shadow-2xl text-xs text-white animate-fade-in pointer-events-auto">
+          <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
+            <Sparkles className="w-4 h-4 animate-spin" style={{ animationDuration: '3s' }} />
+            <span className="font-serif">未寄之信已封存</span>
+          </div>
+          <span className="text-slate-300">· 夜空已为你点亮此坐标</span>
+          <div className="h-3.5 w-[1px] bg-white/15 mx-1" />
+          <button
+            onClick={() => {
+              setViewingCapsule(toastCapsule);
+              setIsSharePosterOpen(true);
+              setToastCapsule(null);
+            }}
+            className="flex items-center gap-1 text-sky-400 hover:text-sky-300 font-medium transition-colors"
+          >
+            <Share2 className="w-3.5 h-3.5" />
+            <span>生成海报</span>
+          </button>
+          <button
+            onClick={() => {
+              setViewingCapsule(toastCapsule);
+              setToastCapsule(null);
+            }}
+            className="text-slate-400 hover:text-slate-200 transition-colors ml-1"
+          >
+            查看
+          </button>
+          <button
+            onClick={() => setToastCapsule(null)}
+            className="p-1 rounded-full text-slate-500 hover:text-white transition-colors"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
       {/* 屏幕左下角：🎲 随机漂流 (任意门) 悬浮按钮 */}
       <div className="absolute bottom-6 left-6 z-20">
