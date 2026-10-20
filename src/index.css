@@ -11,15 +11,19 @@
   }
 }
 
-/* 呼吸微光点样式 */
+/* MapLibre 坐标点绝对定位加固（防止多个点位在文档流中纵向顺序推挤偏移） */
+.maplibregl-marker,
 .aurora-marker {
-  position: relative;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
   width: 24px;
   height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  will-change: transform;
 }
 
 .aurora-marker-core {
